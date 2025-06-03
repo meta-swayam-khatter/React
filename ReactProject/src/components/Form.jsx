@@ -1,18 +1,16 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FormContext } from '../context/FormContext'
 
 function Form() {
     const navigate = useNavigate()
     const { data, setData } = useContext(FormContext)
-    // const [formData, setFormData] = useState({
-    //     name: '',
-    //     age: '',
-    //     email: '',
-    //     phone: '',
-    //     gender: '',
-    //     address: '',
-    // })
+
+    const inputRef = useRef(null);
+
+    useEffect(() => {
+        inputRef.current.focus();
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -54,7 +52,7 @@ function Form() {
         <div className="flex justify-center items-center h-screen bg-gray-100">
             <form onSubmit={handleSubmit} className="w-[600px] border-2 rounded-2xl shadow-2xl p-6 bg-white space-y-1">
                 <label className="block">
-                    Name: <input type="text" name="name" value={data.name} onChange={handleChange} className="w-full p-2 border rounded" />
+                    Name: <input ref={inputRef} type="text" name="name" value={data.name} onChange={handleChange} className="w-full p-2 border rounded" />
                 </label>
 
                 <label className="block">
