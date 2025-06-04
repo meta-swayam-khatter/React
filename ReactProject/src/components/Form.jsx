@@ -12,9 +12,9 @@ function Form() {
     const inputRef = useRef(null);
 
     const randomQuote = async () => {
-        const response = await axios.get('https://api.api-ninjas.com/v1/quotes', {
+        const response = await axios.get(import.meta.env.VITE_API, {
             headers: {
-                'X-Api-Key': 'fUqJxHleRLR7vKfTeU1Jwg==obWeik5zaOt7Tp9D'
+                'X-Api-Key': import.meta.env.VITE_KEY
             }
         });
         setQuote(response.data[0].quote);
@@ -53,7 +53,7 @@ function Form() {
     return (
         <div className="flex flex-col justify-center items-center h-screen bg-gray-100">
             <div className='p-4 flex justify-center font-extrabold text-2xl'>QUOTE</div>
-            <div className='px-28 py-4 flex justify-center text-center'>{quote}</div>
+            <div className='px-28 pb-8 flex justify-center text-center'>{quote}</div>
             <form onSubmit={handleSubmit} className="w-[600px] border-2 rounded-2xl shadow-2xl p-6 bg-white space-y-1">
                 <label className="block">
                     Name: <input ref={inputRef} type="text" name="name" value={data.name} onChange={handleChange} className="w-full p-2 border rounded" />
