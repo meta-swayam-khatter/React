@@ -1,18 +1,25 @@
-import { useContext, useEffect, useRef } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FormContext } from '../context/FormContext'
 import IsFormValid from '../hooks/IsFormValid'
+import axios from 'axios';
 
 function Form() {
     const navigate = useNavigate()
     const { data, setData } = useContext(FormContext)
+    const [quote, setQuote] = useState(null);
     const isFormValid = IsFormValid(data);
     const inputRef = useRef(null);
 
-    useEffect(() => {
-        inputRef.current.focus();
-    }, []);
-
+    const randomQuote = async () => {
+        const response = await axios.get('https://api.api-ninjas.com/v1/quotes', {
+            headers: {
+                'X-Api-Key': 'fUqJxHleRLR7vKfTeU1Jwg==obWeik5zaOt7Tp9D'
+            }
+        });
+        setQuote(response.data[0].quote);
+    }
+    
     const handleChange = (e) => {
         const { name, value } = e.target
         setData((prev) => ({
@@ -20,7 +27,7 @@ function Form() {
             [name]: value,
         }))
     }
-
+    
     const handleClear = () => {
         setData({
             name: '',
@@ -31,15 +38,22 @@ function Form() {
             address: '',
         })
     }
-
+    
     const handleSubmit = (e) => {
         e.preventDefault()
         if (!isFormValid) return
         navigate('/profile')
     }
+    
+    useEffect(() => {
+        randomQuote();
+        inputRef.current.focus();
+    }, []);
 
     return (
-        <div className="flex justify-center items-center h-screen bg-gray-100">
+        <div className="flex flex-col justify-center items-center h-screen bg-gray-100">
+            <div className='p-4 flex justify-center font-extrabold text-2xl'>QUOTE</div>
+            <div className='px-28 py-4 flex justify-center text-center'>{quote}</div>
             <form onSubmit={handleSubmit} className="w-[600px] border-2 rounded-2xl shadow-2xl p-6 bg-white space-y-1">
                 <label className="block">
                     Name: <input ref={inputRef} type="text" name="name" value={data.name} onChange={handleChange} className="w-full p-2 border rounded" />
