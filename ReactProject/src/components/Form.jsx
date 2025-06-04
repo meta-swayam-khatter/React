@@ -1,11 +1,12 @@
 import { useContext, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FormContext } from '../context/FormContext'
+import IsFormValid from '../hooks/IsFormValid'
 
 function Form() {
     const navigate = useNavigate()
     const { data, setData } = useContext(FormContext)
-
+    const isFormValid = IsFormValid(data);
     const inputRef = useRef(null);
 
     useEffect(() => {
@@ -31,20 +32,9 @@ function Form() {
         })
     }
 
-    const isFormValid = () => {
-        return (
-            data.name &&
-            data.age &&
-            data.email &&
-            data.phone &&
-            data.gender &&
-            data.address
-        )
-    }
-
     const handleSubmit = (e) => {
         e.preventDefault()
-        if (!isFormValid()) return
+        if (!isFormValid) return
         navigate('/profile')
     }
 
@@ -89,7 +79,7 @@ function Form() {
                     <button type="button" onClick={handleClear} className="bg-red-400 text-white px-4 py-2 rounded-md shadow hover:bg-red-500" >
                         Clear
                     </button>
-                    <button type="submit" disabled={!isFormValid()} className={`px-4 py-2 rounded-md shadow text-white ${isFormValid() ? 'bg-blue-500 hover:bg-blue-600' : 'bg-gray-400 cursor-not-allowed'}`} >
+                    <button type="submit" disabled={!isFormValid} className={`px-4 py-2 rounded-md shadow text-white ${isFormValid ? 'bg-blue-500 hover:bg-blue-600' : 'bg-gray-400 cursor-not-allowed'}`} >
                         Submit
                     </button>
                 </div>
