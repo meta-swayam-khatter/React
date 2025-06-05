@@ -1,4 +1,5 @@
 const IsFormValid = (props) => {
+    console.log(props);
     return (
         props.name &&
         props.age &&
