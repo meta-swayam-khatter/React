@@ -1,30 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-export const formSlice = createSlice({
-    name: 'formData',
-    initialState: {
-        data: {
-            name: '',
-            age: '',
-            email: '',
-            phone: '',
-            gender: '',
-            address: '',
-        }
+const initialState = {
+  name: '',
+  age: '',
+  email: '',
+  phone: '',
+  gender: '',
+  address: '',
+}
+
+const formSlice = createSlice({
+  name: 'form',
+  initialState,
+  reducers: {
+    updateField: (state, action) => {
+      const { name, value } = action.payload
+      state[name] = value
     },
-    reducers: {
-        handleSubmit: (state, action) => {
-            state.name = action.payload.name,
-            state.age = action.payload.age,
-            state.email = action.payload.email,
-            state.phone = action.payload.phone,
-            state.gender = action.payload.gender,
-            state.address = action.payload.address
-        }
-    },
+    clearForm: () => initialState,
+  },
 })
 
-// Action creators are generated for each case reducer function
-export const { handleSubmit } = formSlice.actions
+export const { updateField, clearForm } = formSlice.actions
 
 export default formSlice.reducer

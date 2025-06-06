@@ -1,10 +1,12 @@
 import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FormContext } from '../context/FormContext'
+import { useSelector } from 'react-redux'
 
 function Profile() {
   const navigate = useNavigate()
-  const { data } = useContext(FormContext);
+  // const { data } = useContext(FormContext);
+  const data = useSelector((state) => state.formData)
 
   if (!data) {
     return (

@@ -1,12 +1,16 @@
 import { useContext, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { FormContext } from '../context/FormContext'
+// import { FormContext } from '../context/FormContext'
 import IsFormValid from '../hooks/IsFormValid'
 import axios from 'axios';
+import { clearForm, updateField } from '../redux/formData/formSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 function Form() {
     const navigate = useNavigate()
-    const { data, setData } = useContext(FormContext)
+    // const { data, setData } = useContext(FormContext)
+    const dispatch = useDispatch()
+    const data = useSelector((state) => state.formData)
     const [quote, setQuote] = useState(null);
     const isFormValid = IsFormValid(data);
     const inputRef = useRef(null);
@@ -22,21 +26,11 @@ function Form() {
     
     const handleChange = (e) => {
         const { name, value } = e.target
-        setData((prev) => ({
-            ...prev,
-            [name]: value,
-        }))
+        dispatch(updateField({name, value}))
     }
     
     const handleClear = () => {
-        setData({
-            name: '',
-            age: '',
-            email: '',
-            phone: '',
-            gender: '',
-            address: '',
-        })
+        dispatch(clearForm())
     }
     
     const handleSubmit = (e) => {
