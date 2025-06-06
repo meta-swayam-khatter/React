@@ -23,22 +23,22 @@ function Form() {
         });
         setQuote(response.data[0].quote);
     }
-    
+
     const handleChange = (e) => {
         const { name, value } = e.target
-        dispatch(updateField({name, value}))
+        dispatch(updateField({ name, value }))
     }
-    
+
     const handleClear = () => {
         dispatch(clearForm())
     }
-    
+
     const handleSubmit = (e) => {
         e.preventDefault()
         if (!isFormValid) return
         navigate('/profile')
     }
-    
+
     useEffect(() => {
         randomQuote();
         inputRef.current.focus();
