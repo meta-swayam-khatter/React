@@ -1,16 +1,16 @@
 import { useContext, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-// import { FormContext } from '../context/FormContext'
+import { FormContext } from '../context/FormContext'
 import IsFormValid from '../hooks/IsFormValid'
 import axios from 'axios';
-import { clearForm, updateField } from '../redux/formData/formSlice';
-import { useDispatch, useSelector } from 'react-redux';
+// import { clearForm, updateField } from '../redux/formData/formSlice';
+// import { useDispatch, useSelector } from 'react-redux';
 
 function Form() {
     const navigate = useNavigate()
-    // const { data, setData } = useContext(FormContext)
-    const dispatch = useDispatch()
-    const data = useSelector((state) => state.formData)
+    const { data, setData } = useContext(FormContext)
+    // const dispatch = useDispatch()
+    // const data = useSelector((state) => state.formData)
     const [quote, setQuote] = useState(null);
     const isFormValid = IsFormValid(data);
     const inputRef = useRef(null);
@@ -26,11 +26,21 @@ function Form() {
 
     const handleChange = (e) => {
         const { name, value } = e.target
-        dispatch(updateField({ name, value }))
+        setData((prev) => ({
+            ...prev,
+            [name]: value,
+        }))
     }
 
     const handleClear = () => {
-        dispatch(clearForm())
+        setData({
+            name: '',
+            age: '',
+            email: '',
+            phone: '',
+            gender: '',
+            address: '',
+        })
     }
 
     const handleSubmit = (e) => {
